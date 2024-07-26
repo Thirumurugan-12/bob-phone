@@ -1,3 +1,4 @@
+import 'package:bob_phone/screens/credit.dart';
 import 'package:bob_phone/screens/document.dart';
 import 'package:bob_phone/screens/invoice.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +45,17 @@ class HomePage extends StatelessWidget {
                 ),
               ),
             ),
-            Card(
-              child: ListTile(
-                leading: Icon(Icons.document_scanner),
-                title: Text('Credit Score'),
-                subtitle: Text('Check your credit score here'),
+            InkWell(
+              onTap: () => {
+// Suggested code may be subject to a license. Learn more: ~LicenseLog:1469755021.
+                Navigator.push(context, MaterialPageRoute(builder: (context) => CreditPage()))
+              },
+              child: Card(
+                child: ListTile(
+                  leading: Icon(Icons.document_scanner),
+                  title: Text('Credit Score'),
+                  subtitle: Text('Check your credit score here'),
+                ),
               ),
             ),
             // Add more cards here

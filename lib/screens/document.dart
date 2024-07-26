@@ -33,14 +33,28 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Name'),
-              onSaved: (value) => _name = value,
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right:20 ),
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'First Name'),
+                onSaved: (value) => _name = value,
+              ),
             ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Address'),
-              onSaved: (value) => _address = value,
+            Padding(
+              padding: const EdgeInsets.only(left: 20,right:20 ),
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'Last Name'),
+                onSaved: (value) => _name = value,
+              ),
             ),
+            Padding(
+               padding: const EdgeInsets.only(left: 20,right:20 ),
+              child: TextFormField(
+                decoration: InputDecoration(labelText: 'Aadhar number'),
+                onSaved: (value) => _address = value,
+              ),
+            ),
+            SizedBox(height: 30,),
             ElevatedButton(
               onPressed: _pickImage,
               child: Text('Upload Certificate'),

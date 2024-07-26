@@ -51,7 +51,8 @@ class _InvoicePageState extends State<InvoicePage> {
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             _image == null
-                ? Text('No image selected.')
+                // ignore: prefer_const_constructors
+                ? Center(child:  Text('No image selected.'))
                 : Image.file(
                     _image!,
                     fit: BoxFit.values[1],
