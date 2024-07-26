@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:bob_phone/backend/api.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -29,7 +30,7 @@ class _InvoicePageState extends State<InvoicePage> {
     var request = http.MultipartRequest(
         'POST',
         Uri.parse(
-            'https://0384-117-254-38-213.ngrok-free.app/api/recognize_receipts'));
+            '${Api.baseUrl}/api/recognize_receipts'));
     request.files.add(await http.MultipartFile.fromPath('file', _image!.path));
     var res = await request.send();
     var response = await http.Response.fromStream(res);

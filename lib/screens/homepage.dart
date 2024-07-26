@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
               child: Card(
                 child: ListTile(
                   leading: Icon(Icons.document_scanner),
-                  title: Text('Document Verification'),
+                  title: Text('KYC Verification'),
                   subtitle: Text('Verify your documents here'),
                 ),
               ),
@@ -55,6 +55,16 @@ class HomePage extends StatelessWidget {
                   leading: Icon(Icons.document_scanner),
                   title: Text('Credit Score'),
                   subtitle: Text('Check your credit score here'),
+                ),
+              ),
+            ),
+            InkWell(
+             
+              child: Card(
+                child: ListTile(
+                  leading: Icon(Icons.document_scanner),
+                  title: Text('Fraud Detection'),
+                  subtitle: Text('Detect fraud here'),
                 ),
               ),
             ),
