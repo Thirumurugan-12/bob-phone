@@ -21,6 +21,7 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
   String? _message;
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
+  bool _isLoading = false;
   
   Future getImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -75,24 +76,32 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
               child: Text('Upload Aadhar Card'),
             ),
             Text(_response ?? ''),
-            Text(_message ?? '' , style: TextStyle(color: Colors.greenAccent),),
+            Text(
+              _message ?? '',
+              style: TextStyle(color: Colors.greenAccent),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
           if (_formKey.currentState!.validate()) {
+            // Set _isLoading to true when the request starts
+            setState(() {
+              _isLoading = true;
+            });
+
             _formKey.currentState!.save();
 
-            var request = http.MultipartRequest(
-                'POST', Uri.parse('${Api.baseUrl}/api/analyze_identity_documents'));
+            var request = http.MultipartRequest('POST',
+                Uri.parse('${Api.baseUrl}/api/analyze_identity_documents'));
             request.files
                 .add(await http.MultipartFile.fromPath('file', _image!.path));
             var res = await request.send();
             var response = await http.Response.fromStream(res);
 
             var data = jsonDecode(response.body);
-            
+
             setState(() {
               _response =
                   'Response status: ${response.statusCode}\nResponse body: ${response.body}';
@@ -109,9 +118,16 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
                 _message = 'KYC failed';
               });
             }
+
+            // Set _isLoading to false when the request finishes
+            setState(() {
+              _isLoading = false;
+            });
           }
         },
-        child: Text('Submit'),
+        child: _isLoading
+            ? CircularProgressIndicator(color: Colors.white)
+            : Text('Submit'),
       ),
     );
   }
