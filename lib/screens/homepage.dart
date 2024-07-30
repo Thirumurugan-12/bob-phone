@@ -4,6 +4,7 @@ import 'package:bob_phone/screens/credit.dart';
 import 'package:bob_phone/screens/document.dart';
 import 'package:bob_phone/screens/fraud.dart';
 import 'package:bob_phone/screens/invoice.dart';
+import 'package:bob_phone/screens/stocks.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -66,12 +67,12 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => CreditPage()),
+                      MaterialPageRoute(builder: (context) => PredictStockPage()),
                     );
                   },
                   icon: Icons.credit_score,
-                  title: 'Credit Score',
-                  subtitle: 'Check your credit score here',
+                  title: 'Stock Risk Prediction',
+                  subtitle: 'Predictive Analysis of Stock Market',
                 ),
                 buildCard(
                   context,
