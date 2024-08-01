@@ -3,7 +3,8 @@ Here's an updated GitHub README to include the use of Flutter for the front end:
 ---
 
 # TrackRiz
-![Uploading Screenshot 2024-08-01 192459.png…]()
+   
+![Screenshot 2024-08-01 192459](https://github.com/user-attachments/assets/cf753252-1e3c-4811-93b7-93ad3c926355)
 
 ## Overview
 
@@ -51,7 +52,8 @@ The system architecture consists of three primary components:
    - *Flutter Framework*: Powers the user interface for various platforms.
    - *User Interaction*: Allows users to view documents, stock predictions, and fraud alerts.
 
-![Architecture Diagram](link_to_diagram_image)
+![Blank diagram (2)](https://github.com/user-attachments/assets/5e39b1f2-16a5-48bc-8287-f8b4207897d2)
+
 
 ## Getting Started
 
