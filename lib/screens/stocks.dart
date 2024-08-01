@@ -1,8 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'dart:convert';
+import 'package:csv/csv.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PredictStockPage extends StatefulWidget {
   @override
@@ -11,6 +16,30 @@ class PredictStockPage extends StatefulWidget {
 
 class _PredictStockPageState extends State<PredictStockPage> {
   Future<String>? _prediction;
+
+  List<FlSpot> spots = [];
+
+  Future<void> loadSpots() async {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('assets/bob.csv');
+    print(file);
+    final csvFile = await file.readAsString();
+    final csvList = CsvToListConverter().convert(csvFile);
+
+    for (var i = 1; i < csvList.length; i++) {
+      spots.add(FlSpot(i.toDouble(), double.parse(csvList[i][1].toString())));
+      // print(spots);
+    }
+
+    setState(() {});
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    loadSpots();
+  }
 
   final _formKey = GlobalKey<FormState>();
   final _openController = TextEditingController();
@@ -109,7 +138,7 @@ class _PredictStockPageState extends State<PredictStockPage> {
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
+          child: ListView(
             children: <Widget>[
               TextFormField(
                 controller: _openController,
@@ -166,12 +195,14 @@ class _PredictStockPageState extends State<PredictStockPage> {
                   return null;
                 },
               ),
+              SizedBox(height: 20),
               // add similar TextFormFields for Low, Adj Close, and Volume
               ElevatedButton(
                 onPressed: () {
                   setState(() {
                     _prediction = _predictStockPrice();
                     _predictStocksPrices();
+                    loadSpots();
                   });
                 },
                 child: Text('Predict'),
@@ -185,10 +216,34 @@ class _PredictStockPageState extends State<PredictStockPage> {
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else {
-                    return Text('Predicted Stock Price: ${snapshot.data}');
+                    return Text(
+                      'Predicted Stock Price: ${snapshot.data}',
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    );
                   }
                 },
               ),
+              spots.isNotEmpty
+                  ? Container(
+                      height: 200,
+                      width: 200,
+                      child: LineChart(
+                        LineChartData(
+                          gridData: FlGridData(show: false),
+                          titlesData: FlTitlesData(show: false),
+                          borderData: FlBorderData(show: false),
+                          lineBarsData: [
+                            LineChartBarData(
+                              spots: spots,
+                              isCurved: true,
+                              dotData: FlDotData(show: false),
+                              belowBarData: BarAreaData(show: false),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  : Center(child: Text('No data available')),
               Container(
                 height: 200,
                 // width: 500,

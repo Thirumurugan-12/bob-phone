@@ -17,12 +17,12 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
   File? _image;
   String? _name;
   String? _address;
-  String _response = '';
+  List<dynamic> _response = [];
   String? _message;
   final TextEditingController _firstName = TextEditingController();
   final TextEditingController _lastName = TextEditingController();
   bool _isLoading = false;
-  
+
   Future getImage() async {
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
 
@@ -75,10 +75,31 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
               onPressed: getImage,
               child: Text('Upload Aadhar Card'),
             ),
-            Text(_response ?? ''),
+            // Text(_response ?? ''),
+            ListTile(
+              title: Text(
+                'Document Number: ${_response.isNotEmpty ? _response[0]['DocumentNumber'] : 'N/A'}',
+                style: TextStyle(fontSize: 30),
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    'First Name: ${_response.isNotEmpty ? _response[0]['FirstName'] : 'N/A'}',
+                    style: TextStyle(fontSize: 30),
+                  ),
+                  Text(
+                    'Last Name: ${_response.isNotEmpty ? _response[0]['LastName'] : 'N/A'}',
+                    style: TextStyle(fontSize: 30),
+                  ),
+                ],
+              ),
+            ),
             Text(
               _message ?? '',
-              style: TextStyle(color: Colors.greenAccent),
+              style: _message == 'KYC verification is successful'
+                  ? TextStyle(color: Colors.greenAccent, fontSize: 30)
+                  : TextStyle(color: Colors.redAccent, fontSize: 30),
             ),
           ],
         ),
@@ -103,11 +124,11 @@ class _DocumentVerificationPageState extends State<DocumentVerificationPage> {
             var data = jsonDecode(response.body);
 
             setState(() {
-              _response =
-                  'Response status: ${response.statusCode}\nResponse body: ${response.body}';
+              _response = jsonDecode(response.body);
             });
             print(_firstName.text.trim());
             print(_lastName.text.trim());
+            print(_response);
             if (data[0]['FirstName'].trim() == _firstName.text.trim() &&
                 data[0]['LastName'] == _lastName.text.trim()) {
               setState(() {
