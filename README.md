@@ -1,6 +1,4 @@
-Here's an updated GitHub README to include the use of Flutter for the front end:
 
----
 
 # TrackRiz
    
